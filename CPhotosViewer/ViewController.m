@@ -14,7 +14,7 @@
 
 @property (nonatomic,strong) NSMutableArray <UIImageView*>*imageViews;
 @property (nonatomic,strong) NSMutableArray <NSString *>*urlArr;
-
+@property (nonatomic,assign) BOOL statusBarHidden;
 @end
 
 @implementation ViewController
@@ -27,7 +27,7 @@
 
     NSInteger i = 1;
     while (i < 20) {
-        if(i != 19) [self.urlArr addObject:[NSString stringWithFormat:@"http://img1.3lian.com/img2011/w1/109/84/d/%zd.jpg",i]];
+        if(i != 19 && i != 12) [self.urlArr addObject:[NSString stringWithFormat:@"http://img1.3lian.com/img2011/w1/109/84/d/%zd.jpg",i]];
         i++;
     }
     
@@ -55,6 +55,9 @@
 
 - (void)tapAction:(UITapGestureRecognizer *)gesture
 {
+    self.statusBarHidden = YES;
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     UIImageView *clickView = (UIImageView *)[gesture view];
     NSInteger index = [self.imageViews indexOfObject:clickView];
     
@@ -64,13 +67,14 @@
               allVisibleViews:self.imageViews
                    closeBlock:^(NSInteger currentIndex) {
         NSLog(@"当前索引：%zd",currentIndex);
+                       self.statusBarHidden = NO;
+                       [self setNeedsStatusBarAppearanceUpdate];
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (BOOL)prefersStatusBarHidden
+{
+    return self.statusBarHidden; // 返回NO表示要显示，返回YES将hiden
 }
-
 
 @end

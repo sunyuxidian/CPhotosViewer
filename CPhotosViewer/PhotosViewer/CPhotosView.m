@@ -243,10 +243,6 @@ static CGFloat itemPadding = 10;
             self.alpha = 0;
         } completion:^(BOOL finished) {
             [self updateOriImageViewVisible:NO];
-            if(self.closeBlock)
-            {
-                self.closeBlock(self.pageControl.currentPage);
-            }
             [self removeFromSuperview];
         }];
     }
@@ -270,13 +266,14 @@ static CGFloat itemPadding = 10;
             self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
         } completion:^(BOOL finished) {
             [self updateOriImageViewVisible:NO];
-            if(self.closeBlock)
-            {
-                self.closeBlock(self.pageControl.currentPage);
-            }
             [tempView removeFromSuperview];
             [self removeFromSuperview];
         }];
+    }
+    
+    if(self.closeBlock)
+    {
+        self.closeBlock(self.pageControl.currentPage);
     }
 }
 
